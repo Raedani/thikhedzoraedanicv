@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My CV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        nav {
+            background: navy;
+            padding: 10px;
+            text-align: center;
+            display: block;
+        }
+        nav a {
+            margin: 0 15px;
+            color: navy blue;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            background: blue;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container {
+            display: none;
+        }
+        .form-container.active {
+            display: block;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #888;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #333;
+            color: yellow;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <header>
+        <h1 contenteditable="true">My CV</h1>
+    </header>
+    
+    <nav id="navigation">
+        <a href="#" onclick="showPage('home')" contenteditable="true">Home</a>
+        <a href="#" onclick="showPage('personal')" contenteditable="true">Personal Information</a>
+        <a href="#" onclick="showPage('education')" contenteditable="true">Education</a>
+        <a href="#" onclick="showPage('experience')" contenteditable="true">Work Experience</a>
+        <a href="#" onclick="showPage('skills')" contenteditable="true">Skills</a>
+        <a href="#" onclick="showPage('projects')" contenteditable="true">Projects</a>
+        <a href="#" onclick="showPage('contact')" contenteditable="true">Contact</a>
+    </nav>
+
+    <div class="container">
+        <div id="home" class="form-container active">
+            <h2 contenteditable="true">Welcome to ThikhedzoCV</h2>
+            <p>Explore my professional journey and personal achievements by navigating through the various sections of this CV.</p>
+        </div>
+        
+        <div id="personal" class="form-container">
+            <h2 contenteditable="true">Personal Information</h2>
+            <label>Full Names</label>
+            <input type="text" id="fullNames" placeholder="Enter your full names" />
+            <label>Surname</label>
+            <input type="text" id="surname" placeholder="Enter your surname" />
+            <label>Identity Number</label>
+            <input type="text" id="identityNumberDisplay" placeholder="Enter your identity number" />
+            <label>Date of Birth</label>
+            <input type="text" id="dob" placeholder="Enter your date of birth (DD/MM/YYYY)" />
+            <label>Email</label>
+            <input type="text" id="email" placeholder="Enter your email address" />
+            <label>Phone</label>
+            <input type="text" id="phone" placeholder="Enter your phone number" />
+            <label>Race</label>
+            <input type="text" id="race" placeholder="Enter your race" />
+            <label>Sex</label>
+            <input type="text" id="sex" placeholder="Enter your gender" />
+            <label>Nationality</label>
+            <input type="text" id="nationality" placeholder="Enter your nationality" />
+            <label>Province</label>
+            <input type="text" id="province" placeholder="Enter your province" />
+            <label>City</label>
+            <input type="text" id="city" placeholder="Enter your city" />
+            <label>Postal Code</label>
+            <input type="text" id="postalCode" placeholder="Enter your postal code" />
+            <label>Street Address</label>
+            <input type="text" id="streetAddress" placeholder="Enter your street address" />
+            <label>LinkedIn</label>
+            <input type="text" id="linkedin" placeholder="Enter your LinkedIn profile URL" />
+            <label>Criminal Record</label>
+            <input type="text" id="criminalRecord" placeholder="Enter 'Yes' or 'No' for criminal record" />
+            <label>Languages</label>
+            <input type="text" id="language1" placeholder="Enter your first language" />
+            <input type="text" id="language2" placeholder="Enter your second language (if any)" />
+            <label>Bio</label>
+            <textarea id="bio" placeholder="Write a short bio about yourself"></textarea>
+            <button onclick="savePersonalInfo()">Save Personal Info</button>
+            <button onclick="deletePersonalInfo()">Delete Personal Info</button>
+        </div>
+        
+        <div id="education" class="form-container">
+            <h2 contenteditable="true">Education</h2>
+            <label>Degree</label>
+            <input type="text" id="degree" placeholder="Enter your degree" />
+            <label>Field of Study</label>
+            <input type="text" id="fieldOfStudy" placeholder="Enter your field of study" />
+            <label>Institution</label>
+            <input type="text" id="institution" placeholder="Enter the institution's name" />
+            <label>Location</label>
+            <input type="text" id="location" placeholder="Enter the location of the institution" />
+            <label>Graduation Date</label>
+            <input type="text" id="graduationDate" placeholder="Enter your graduation date (MM/YYYY)" />
+            <label>Relevant Coursework</label>
+            <textarea id="coursework" placeholder="List relevant coursework"></textarea>
+            <label>Honors</label>
+            <input type="text" id="honors" placeholder="Enter any honors or distinctions" />
+            <button onclick="saveEducation()">Save Education</button>
+            <button onclick="deleteEducation()">Delete Education</button>
+        </div>
+        
+        <div id="experience" class="form-container">
+            <h2 contenteditable="true">Work Experience</h2>
+            <label>Position</label>
+            <input type="text" id="position" placeholder="Enter your job title" />
+            <label>Company</label>
+            <input type="text" id="company" placeholder="Enter the company name" />
+            <label>Duration</label>
+            <input type="text" id="duration" placeholder="Enter the duration (e.g., 2018-2021)" />
+            <label>Responsibilities</label>
+            <textarea id="responsibilities" placeholder="Describe your responsibilities"></textarea>
+            <button onclick="saveExperience()">Save Experience</button>
+            <button onclick="deleteExperience()">Delete Experience</button>
+        </div>
+        
+        <div id="skills" class="form-container">
+            <h2 contenteditable="true">Skills</h2>
+            <label>Skill</label>
+            <input type="text" id="skill" placeholder="Enter a skill" />
+            <label>Proficiency Level</label>
+            <input type="text" id="proficiency" placeholder="Enter your proficiency level (e.g., Beginner, Intermediate, Advanced)" />
+            <button onclick="saveSkill()">Save Skill</button>
+            <button onclick="deleteSkill()">Delete Skill</button>
+        </div>
+        
+        <div id="projects" class="form-container">
+            <h2 contenteditable="true">Projects</h2>
+            <label>Project Title</label>
+            <input type="text" id="projectTitle" placeholder="Enter the project title" />
+            <label>Description</label>
+            <textarea id="projectDescription" placeholder="Describe the project"></textarea>
+            <label>Technology Used</label>
+            <input type="text" id="technologyUsed" placeholder="List technologies used" />
+            <button onclick="saveProject()">Save Project</button>
+            <button onclick="deleteProject()">Delete Project</button>
+        </div>
+        
+        <div id="contact" class="form-container">
+            <h2 contenteditable="true">Contact</h2>
+            <label>Contact Form URL</label>
+            <input type="text" id="contactFormURL" placeholder="Enter the URL to your contact form" />
+            <button onclick="saveContact()">Save Contact</button>
+            <button onclick="deleteContact()">Delete Contact</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 ThikhedzoCV. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function showPage(page) {
+            const pages = document.querySelectorAll('.form-container');
+            pages.forEach(p => p.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+            loadSections(); // Load data whenever a page is opened
+        }
+
+        async function savePersonalInfo() {
+            const personalInfo = {
+                fullNames: document.getElementById('fullNames').value,
+                surname: document.getElementById('surname').value,
+                identityNumber: document.getElementById('identityNumberDisplay').value,
+                dob: document.getElementById('dob').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                race: document.getElementById('race').value,
+                sex: document.getElementById('sex').value,
+                nationality: document.getElementById('nationality').value,
+                province: document.getElementById('province').value,
+                city: document.getElementById('city').value,
+                postalCode: document.getElementById('postalCode').value,
+                streetAddress: document.getElementById('streetAddress').value,
+                linkedin: document.getElementById('linkedin').value,
+                criminalRecord: document.getElementById('criminalRecord').value,
+                language1: document.getElementById('language1').value,
+                language2: document.getElementById('language2').value,
+                bio: document.getElementById('bio').value,
+            };
+            await db.collection("personalInfo").add(personalInfo);
+            alert('Personal information saved!');
+        }
+
+        async function loadSections() {
+            const personalInfoSnap = await db.collection("personalInfo").get();
+            personalInfoSnap.forEach(doc => {
+                const data = doc.data();
+                document.getElementById('fullNames').value = data.fullNames || '';
+                document.getElementById('surname').value = data.surname || '';
+                document.getElementById('identityNumberDisplay').value = data.identityNumber || '';
+                document.getElementById('dob').value = data.dob || '';
+                document.getElementById('email').value = data.email || '';
+                document.getElementById('phone').value = data.phone || '';
+                document.getElementById('race').value = data.race || '';
+                document.getElementById('sex').value = data.sex || '';
+                document.getElementById('nationality').value = data.nationality || '';
+                document.getElementById('province').value = data.province || '';
+                document.getElementById('city').value = data.city || '';
+                document.getElementById('postalCode').value = data.postalCode || '';
+                document.getElementById('streetAddress').value = data.streetAddress || '';
+                document.getElementById('linkedin').value = data.linkedin || '';
+                document.getElementById('criminalRecord').value = data.criminalRecord || '';
+                document.getElementById('language1').value = data.language1 || '';
+                document.getElementById('language2').value = data.language2 || '';
+                document.getElementById('bio').value = data.bio || '';
+            });
+        }
+
+        async function deletePersonalInfo() {
+            const personalInfoSnap = await db.collection("personalInfo").get();
+            personalInfoSnap.forEach(doc => {
+                db.collection("personalInfo").doc(doc.id).delete();
+            });
+            alert('Personal information deleted!');
+        }
+
+        async function saveEducation() {
+            const education = {
+                degree: document.getElementById('degree').value,
+                fieldOfStudy: document.getElementById('fieldOfStudy').value,
+                institution: document.getElementById('institution').value,
+                location: document.getElementById('location').value,
+                graduationDate: document.getElementById('graduationDate').value,
+                coursework: document.getElementById('coursework').value,
+                honors: document.getElementById('honors').value,
+            };
+            await db.collection("education").add(education);
+            alert('Education saved!');
+        }
+
+        async function loadEducation() {
+            const educationSnap = await db.collection("education").get();
+            educationSnap.forEach(doc => {
+                const data = doc.data();
+                document.getElementById('degree').value = data.degree || '';
+                document.getElementById('fieldOfStudy').value = data.fieldOfStudy || '';
+                document.getElementById('institution').value = data.institution || '';
+                document.getElementById('location').value = data.location || '';
+                document.getElementById('graduationDate').value = data.graduationDate || '';
+                document.getElementById('coursework').value = data.coursework || '';
+                document.getElementById('honors').value = data.honors || '';
+            });
+        }
+
+        async function deleteEducation() {
+            const educationSnap = await db.collection("education").get();
+            educationSnap.forEach(doc => {
+                db.collection("education").doc(doc.id).delete();
+            });
+            alert('Education deleted!');
+        }
+
+        async function saveExperience() {
+            const experience = {
+                position: document.getElementById('position').value,
+                company: document.getElementById('company').value,
+                duration: document.getElementById('duration').value,
+                responsibilities: document.getElementById('responsibilities').value,
+            };
+            await db.collection("experience").add(experience);
+            alert('Experience saved!');
+        }
+
+        async function loadExperience() {
+            const experienceSnap = await db.collection("experience").get();
+            experienceSnap.forEach(doc => {
+                const data = doc.data();
+                document.getElementById('position').value = data.position || '';
+                document.getElementById('company').value = data.company || '';
+                document.getElementById('duration').value = data.duration || '';
+                document.getElementById('responsibilities').value = data.responsibilities || '';
+            });
+        }
+
+        async function deleteExperience() {
+            const experienceSnap = await db.collection("experience").get();
+            experienceSnap.forEach(doc => {
+                db.collection("experience").doc(doc.id).delete();
+            });
+            alert('Experience deleted!');
+        }
+
+        async function saveSkill() {
+            const skill = {
+                skill: document.getElementById('skill').value,
+                proficiency: document.getElementById('proficiency').value,
+            };
+            await db.collection("skills").add(skill);
+            alert('Skill saved!');
+        }
+
+        async function loadSkills() {
+            const skillsSnap = await db.collection("skills").get();
+            skillsSnap.forEach(doc => {
+                const data = doc.data();
+                document.getElementById('skill').value = data.skill || '';
+                document.getElementById('proficiency').value = data.proficiency || '';
+            });
+        }
+
+        async function deleteSkill() {
+            const skillsSnap = await db.collection("skills").get();
+            skillsSnap.forEach(doc => {
+                db.collection("skills").doc(doc.id).delete();
+            });
+            alert('Skill deleted!');
+        }
+
+        async function saveProject() {
+            const project = {
+                title: document.getElementById('projectTitle').value,
+                description: document.getElementById('projectDescription').value,
+                technologyUsed: document.getElementById('technologyUsed').value,
+            };
+            await db.collection("projects").add(project);
+            alert('Project saved!');
+        }
+
+        async function loadProjects() {
+            const projectsSnap = await db.collection("projects").get();
+            projectsSnap.forEach(doc => {
+                const data = doc.data();
+                document.getElementById('projectTitle').value = data.title || '';
+                document.getElementById('projectDescription').value = data.description || '';
+                document.getElementById('technologyUsed').value = data.technologyUsed || '';
+            });
+        }
+
+        async function deleteProject() {
+            const projectsSnap = await db.collection("projects").get();
+            projectsSnap.forEach(doc => {
+                db.collection("projects").doc(doc.id).delete();
+            });
+            alert('Project deleted!');
+        }
+
+        async function saveContact() {
+            const contact = {
+                contactFormURL: document.getElementById('contactFormURL').value,
+            };
+            await db.collection("contacts").add(contact);
+            alert('Contact information saved!');
+        }
+
+        async function loadContact() {
+            const contactSnap = await db.collection("contacts").get();
+            contactSnap.forEach(doc => {
+                const data = doc.data();
+                document.getElementById('contactFormURL').value = data.contactFormURL || '';
+            });
+        }
+
+        async function deleteContact() {
+            const contactSnap = await db.collection("contacts").get();
+            contactSnap.forEach(doc => {
+                db.collection("contacts").doc(doc.id).delete();
+            });
+            alert('Contact information deleted!');
+        }
+
+        // Load all sections on page load
+        window.onload = function() {
+            loadSections();
+            loadEducation();
+            loadExperience();
+            loadSkills();
+            loadProjects();
+            loadContact();
+        };
+    </script>
+</body>
+</html>
